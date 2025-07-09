@@ -1,15 +1,12 @@
-import {
-  ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 
-import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 
-import { routes } from './app.routes';
+import Aura from '@primeuix/themes/aura';
+
+import { routes } from '@core/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
