@@ -13,6 +13,7 @@
     "^@ngrx/(.*)$",
     "^primeng/(.*)$",
     "<THIRD_PARTY_MODULES>",
+    "^@core/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
