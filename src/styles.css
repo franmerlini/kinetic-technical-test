@@ -2,3 +2,45 @@
 @import "primeicons/primeicons.css";
 @plugin "tailwindcss-primeui";
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary break-words;
+  }
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary break-words;
+  }
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary break-words;
+  }
+  h4 {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-primary break-words;
+  }
+  h5 {
+    @apply text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-primary break-words;
+  }
+  h6 {
+    @apply text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-primary break-words;
+  }
+
+  p-table {
+    table {
+      @apply rounded-md overflow-hidden;
+    }
+
+    th,
+    td {
+      @apply uppercase text-center;
+    }
+
+    th {
+      @apply font-bold
+    }
+  }
+}
+
+html,
+body {
+  height: 100%;
+  font-family: Nunito, sans-serif;
+}
