@@ -1,0 +1,37 @@
+@if (product(); as product) {
+  <p-card
+    class="cursor-pointer overflow-hidden transition duration-300 hover:shadow-lg"
+    [routerLink]="product.id.toString()"
+  >
+    <ng-template #header>
+      <img class="w-full" [src]="product.imageUrl" [alt]="product.name" />
+    </ng-template>
+
+    <ng-template #title>{{ product.name }}</ng-template>
+
+    <p class="text-lg">
+      {{ product.price | currency }}
+    </p>
+
+    <p class="text-gray-500">{{ product.stock }} {{ product.stock === 1 ? 'unidad' : 'unidades' }} en stock</p>
+
+    <ng-template #footer>
+      <div class="flex justify-end gap-2">
+        <p-button
+          text
+          pTooltip="Editar"
+          tooltipPosition="bottom"
+          icon="pi pi-pencil"
+          (onClick)="updateProduct.emit(product.id); $event.stopPropagation()"
+        />
+        <p-button
+          text
+          pTooltip="Eliminar"
+          tooltipPosition="bottom"
+          icon="pi pi-trash"
+          (onClick)="deleteProduct.emit(product.id); $event.stopPropagation()"
+        />
+      </div>
+    </ng-template>
+  </p-card>
+}

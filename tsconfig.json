@@ -8,6 +8,8 @@
     "baseUrl": "./src",
     "paths": {
       "@core/*": ["app/core/*"],
+      "@products/*": ["app/products/*"],
+      "@shared/*": ["app/shared/*"]
     },
     "isolatedModules": true
   },

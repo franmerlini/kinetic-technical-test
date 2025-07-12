@@ -7,18 +7,27 @@
   "trailingComma": "es5",
   "printWidth": 120,
   "endOfLine": "lf",
-   "importOrder": [
+  "importOrder": [
     "^@angular/(.*)$",
     "^@rxjs/(.*)$",
     "^@ngrx/(.*)$",
     "^primeng/(.*)$",
     "<THIRD_PARTY_MODULES>",
+    "^@shared/(.*)$",
     "^@core/(.*)$",
+    "^@products/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"]
-
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
 }
