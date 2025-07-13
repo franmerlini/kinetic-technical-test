@@ -30,6 +30,11 @@ export default tseslint.config(
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
   {
+    rules: {
+      '@angular-eslint/template/label-has-associated-control': 'off',
+    }
+  },
+  {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
@@ -59,6 +64,7 @@ export default tseslint.config(
         },
       ],
       '@angular-eslint/prefer-on-push-component-change-detection': 'error',
+      '@angular-eslint/template/label-has-associated-control': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
       'no-console': 'error',
       'no-else-return': 'error',
