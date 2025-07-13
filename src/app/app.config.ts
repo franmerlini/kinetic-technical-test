@@ -2,8 +2,10 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
+import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
 import { routes } from '@core/api';
@@ -16,7 +18,15 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: definePreset(Aura, {
+          components: {
+            toast: {
+              text: {
+                gap: '0',
+              },
+            },
+          },
+        }),
         options: {
           prefix: 'p',
           darkModeSelector: '.dark',
@@ -27,5 +37,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+    MessageService,
   ],
 };
