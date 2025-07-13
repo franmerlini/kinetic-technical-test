@@ -38,7 +38,7 @@ import { getErrorMessage } from '@shared/util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiSelect implements DoCheck {
-  readonly list = input.required<SelectItem[] | SelectItem[] | undefined>();
+  readonly list = input.required<SelectItem[] | undefined>();
   readonly optionLabel = input<string>('name');
   readonly label = input.required<string>();
   readonly formControlName = input.required<string>();
