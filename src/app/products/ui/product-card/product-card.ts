@@ -18,6 +18,5 @@ import { Product } from '@products/domain';
 export class ProductCard {
   readonly product = input.required<Product>();
 
-  readonly updateProduct = output<number>();
   readonly deleteProduct = output<number>();
 }
