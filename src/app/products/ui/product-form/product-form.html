@@ -1,0 +1,53 @@
+<form [formGroup]="form" class="flex flex-col gap-4" (ngSubmit)="submitForm()">
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <app-input-text label="Nombre" [formControlName]="formKeys.name" [formControl]="name" ngDefaultControl />
+
+    <app-input-number label="Precio" [formControlName]="formKeys.price" [formControl]="price" ngDefaultControl />
+
+    <app-input-text
+      label="URL imagen"
+      [formControlName]="formKeys.imageUrl"
+      [formControl]="imageUrl"
+      ngDefaultControl
+    />
+
+    <app-multi-select
+      [list]="categoryList()"
+      label="Categorías"
+      [formControlName]="formKeys.categories"
+      [formControl]="categories"
+      ngDefaultControl
+    />
+
+    <app-multi-select
+      [list]="subCategoryList()"
+      label="Subcategorías"
+      [formControlName]="formKeys.subCategories"
+      [formControl]="subCategories"
+      ngDefaultControl
+    />
+
+    <app-input-number label="Stock" [formControlName]="formKeys.stock" [formControl]="stock" ngDefaultControl />
+
+    <div class="col-span-1 sm:col-span-2 md:col-span-3">
+      <app-textarea
+        label="Descripción"
+        [formControlName]="formKeys.description"
+        [formControl]="description"
+        ngDefaultControl
+      />
+    </div>
+
+    <app-checkbox
+      label="Disponible para envío"
+      [formControlName]="formKeys.isAvailableForDelivery"
+      [formControl]="isAvailableForDelivery"
+      ngDefaultControl
+    />
+  </div>
+
+  <div class="flex flex-col gap-2 sm:flex-row sm:justify-end">
+    <p-button type="button" variant="outlined" icon="pi pi-refresh" label="Limpiar" (click)="resetForm()" fluid />
+    <p-button type="submit" [label]="product ? 'Guardar' : 'Registrar'" fluid />
+  </div>
+</form>

@@ -22,7 +22,8 @@
           pTooltip="Editar"
           tooltipPosition="bottom"
           icon="pi pi-pencil"
-          (onClick)="updateProduct.emit(product.id); $event.stopPropagation()"
+          [routerLink]="product.id.toString()"
+          [queryParams]="{ isEdition: true }"
         />
         <p-button
           text
