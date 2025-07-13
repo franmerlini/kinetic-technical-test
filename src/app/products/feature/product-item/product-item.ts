@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { switchMap, take } from 'rxjs';
 
 import { SelectItem } from '@shared/model';
+import { ToastService } from '@shared/service';
 
 import { CategoryDataClient, ProductDataClient } from '@products/data-access';
 import { RegisterProduct, UpdateProduct } from '@products/domain';
@@ -32,6 +33,7 @@ import { ProductForm } from '@products/ui';
         (selectCategories)="filterSubCategories($event)"
         (registerProduct)="registerProduct($event)"
         (updateProduct)="updateProduct($event)"
+        (formError)="toastService.showError($event)"
       />
     </div>
   `,
@@ -43,6 +45,7 @@ export class ProductItem {
 
   readonly #productDataClient = inject(ProductDataClient);
   readonly #categoryDataClient = inject(CategoryDataClient);
+  protected readonly toastService = inject(ToastService);
   readonly #router = inject(Router);
 
   protected readonly product$ = toObservable(this.id).pipe(switchMap((id) => this.#productDataClient.getProduct(id)));
@@ -65,6 +68,7 @@ export class ProductItem {
       .registerProduct(registerProduct)
       .pipe(take(1))
       .subscribe(() => {
+        this.toastService.showSuccess('¡Producto registrado con éxito!');
         this.#router.navigate(['/products']);
       });
   }
@@ -74,6 +78,7 @@ export class ProductItem {
       .updateProduct(updateProduct)
       .pipe(take(1))
       .subscribe(() => {
+        this.toastService.showSuccess('¡Producto actualizado con éxito!');
         this.#router.navigate(['/products']);
       });
   }
