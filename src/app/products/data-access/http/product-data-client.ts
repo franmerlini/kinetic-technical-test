@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { Product, RegisterProduct, UpdateProduct } from '@products/domain';
 
-const products: Product[] = [
+const products = new BehaviorSubject<Product[]>([
   {
     id: 1,
     name: 'Gato hidráulico de piso',
@@ -53,31 +53,43 @@ const products: Product[] = [
     stock: 25,
     isAvailableForDelivery: true,
   },
-];
+]);
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductDataClient {
   getProducts(): Observable<Product[]> {
-    return of(products);
+    return products.asObservable();
   }
 
   getProduct(productId: number): Observable<Product | undefined> {
-    const product = products.find(({ id }) => id === productId);
-    return of(product);
+    return of(products.getValue().find(({ id }) => id === productId));
   }
 
   registerProduct(payload: RegisterProduct): Observable<Product> {
-    const newId = products.length ? Math.max(...products.map(({ id }) => id)) + 1 : 1;
-    const newProduct = { ...payload, id: newId };
-    products.push(newProduct);
+    const newId = products.getValue().length ? Math.max(...products.getValue().map(({ id }) => id)) + 1 : 1;
+    const newProduct: Product = { ...payload, id: newId };
+    products.next([...products.getValue(), newProduct]);
     return of(newProduct);
   }
 
   updateProduct(payload: UpdateProduct): Observable<Product> {
-    const index = products.findIndex(({ id }) => id === payload.id);
-    products[index] = { ...products[index], ...payload };
-    return of(products[index]);
+    const currentProducts = products.getValue();
+    const updatedProducts = currentProducts.map((product) => {
+      if (product.id === payload.id) {
+        return { ...product, ...payload };
+      }
+      return product;
+    });
+    products.next(updatedProducts);
+    return of({ ...payload, id: payload.id });
+  }
+
+  deleteProduct(productId: number): Observable<void> {
+    const currentProducts = products.getValue();
+    const updatedProducts = currentProducts.filter(({ id }) => id !== productId);
+    products.next(updatedProducts);
+    return of(null);
   }
 }
