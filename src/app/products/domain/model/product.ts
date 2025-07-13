@@ -1,4 +1,4 @@
-import { Category } from './category';
+import { SelectItem } from '@shared/model';
 
 export type Product = {
   id: number;
@@ -6,7 +6,8 @@ export type Product = {
   description: string;
   price: number;
   imageUrl: string;
-  categories: Category[];
+  categories: SelectItem[];
+  subCategories?: SelectItem[];
   stock: number;
-  isAvailable: boolean;
+  isAvailableForDelivery: boolean;
 };
