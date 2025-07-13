@@ -1,3 +1,3 @@
 import { Product } from '../model';
 
-export type RegisterProduct = Omit<Product, 'id'>;
+export type RegisterProduct = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>;

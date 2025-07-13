@@ -20,6 +20,8 @@ const products = new BehaviorSubject<Product[]>([
     ],
     stock: 15,
     isAvailableForDelivery: true,
+    createdAt: new Date('2025-07-04T20:06:06.780Z'),
+    updatedAt: new Date('2025-07-04T20:06:06.780Z'),
   },
   {
     id: 2,
@@ -36,6 +38,8 @@ const products = new BehaviorSubject<Product[]>([
     ],
     stock: 10,
     isAvailableForDelivery: true,
+    createdAt: new Date('2025-07-12T20:06:06.780Z'),
+    updatedAt: new Date('2025-07-12T20:06:06.780Z'),
   },
   {
     id: 3,
@@ -52,6 +56,8 @@ const products = new BehaviorSubject<Product[]>([
     ],
     stock: 25,
     isAvailableForDelivery: true,
+    createdAt: new Date('2025-07-10T20:06:16.780Z'),
+    updatedAt: new Date('2025-07-10T20:06:16.780Z'),
   },
 ]);
 
@@ -69,21 +75,18 @@ export class ProductDataClient {
 
   registerProduct(payload: RegisterProduct): Observable<Product> {
     const newId = products.getValue().length ? Math.max(...products.getValue().map(({ id }) => id)) + 1 : 1;
-    const newProduct: Product = { ...payload, id: newId };
+    const newProduct: Product = { ...payload, id: newId, createdAt: new Date(), updatedAt: new Date() };
     products.next([...products.getValue(), newProduct]);
     return of(newProduct);
   }
 
   updateProduct(payload: UpdateProduct): Observable<Product> {
     const currentProducts = products.getValue();
-    const updatedProducts = currentProducts.map((product) => {
-      if (product.id === payload.id) {
-        return { ...product, ...payload };
-      }
-      return product;
-    });
+    const productToUpdate = currentProducts.find(({ id }) => id === payload.id);
+    const updatedProduct: Product = { ...productToUpdate, ...payload, updatedAt: new Date() };
+    const updatedProducts = currentProducts.map((product) => (product.id === payload.id ? updatedProduct : product));
     products.next(updatedProducts);
-    return of({ ...payload, id: payload.id });
+    return of(updatedProduct);
   }
 
   deleteProduct(productId: number): Observable<void> {

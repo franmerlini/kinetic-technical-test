@@ -10,4 +10,6 @@ export type Product = {
   subCategories?: SelectItem[];
   stock: number;
   isAvailableForDelivery: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 };
