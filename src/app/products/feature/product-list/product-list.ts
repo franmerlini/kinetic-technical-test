@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
 import { Button } from 'primeng/button';
@@ -8,8 +9,9 @@ import { filter, switchMap, take } from 'rxjs';
 
 import { DialogService, ToastService } from '@shared/service';
 
-import { ProductDataClient } from '@products/data-access';
-import { ProductCard } from '@products/ui';
+import { CategoryDataClient, ProductDataClient } from '@products/data-access';
+import { FilterProducts } from '@products/domain';
+import { FilterProductsDialog, ProductCard } from '@products/ui';
 
 @Component({
   selector: 'app-product-list',
@@ -18,8 +20,16 @@ import { ProductCard } from '@products/ui';
     <div class="flex flex-col gap-8">
       <h1>Listado de productos</h1>
 
-      <div class="flex justify-end">
-        <p-button label="Agregar" icon="pi pi-plus" routerLink="new" />
+      <div class="flex flex-col gap-2 sm:flex-row sm:justify-end">
+        <p-button severity="secondary" label="Quitar filtros" icon="pi pi-times" fluid (onClick)="resetFilters()" />
+        <p-button
+          severity="secondary"
+          label="Aplicar filtros"
+          icon="pi pi-sliders-h"
+          fluid
+          (onClick)="applyFilters()"
+        />
+        <p-button label="Agregar" icon="pi pi-plus" fluid routerLink="new" />
       </div>
 
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
@@ -34,9 +44,31 @@ import { ProductCard } from '@products/ui';
 export class ProductList {
   readonly #productDataClient = inject(ProductDataClient);
   readonly #dialogService = inject(DialogService);
+  readonly #categoryDataClient = inject(CategoryDataClient);
   readonly #toastService = inject(ToastService);
 
-  protected readonly products$ = this.#productDataClient.getProducts();
+  protected readonly products$ = this.#productDataClient.getFilteredProducts();
+  readonly categories = toSignal(this.#categoryDataClient.getCategories());
+  readonly filters = toSignal(this.#productDataClient.getFilters());
+
+  resetFilters(): void {
+    this.#productDataClient.resetFilters();
+  }
+
+  applyFilters(): void {
+    this.#dialogService
+      .openFromComponent(FilterProductsDialog, {
+        categories: this.categories(),
+        subCategories: [],
+        filters: this.filters(),
+      })
+      .onClose.pipe(
+        take(1),
+        filter((filterProducts: FilterProducts) => !!filterProducts),
+        switchMap((filterProducts) => this.#productDataClient.filterProducts(filterProducts))
+      )
+      .subscribe();
+  }
 
   deleteProduct(productId: number): void {
     this.#dialogService

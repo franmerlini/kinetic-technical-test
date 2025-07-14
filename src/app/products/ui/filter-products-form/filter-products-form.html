@@ -1,0 +1,56 @@
+<form [formGroup]="form" class="flex flex-col gap-4">
+  <div class="grid grid-cols-1 items-center gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <app-input-text label="Nombre" [formControlName]="formKeys.name" [formControl]="name" ngDefaultControl />
+
+    <app-input-number
+      label="Precio mínimo"
+      [formControlName]="formKeys.minPrice"
+      [formControl]="minPrice"
+      ngDefaultControl
+    />
+
+    <app-input-number
+      label="Precio máximo"
+      [formControlName]="formKeys.maxPrice"
+      [formControl]="maxPrice"
+      ngDefaultControl
+    />
+
+    <app-multi-select
+      [list]="categoryList()"
+      label="Categorías"
+      [formControlName]="formKeys.categories"
+      [formControl]="categories"
+      ngDefaultControl
+    />
+
+    <app-multi-select
+      [list]="subCategoryList()"
+      label="Subcategorías"
+      [formControlName]="formKeys.subCategories"
+      [formControl]="subCategories"
+      ngDefaultControl
+    />
+
+    <app-input-number
+      label="Stock mínimo"
+      [formControlName]="formKeys.minStock"
+      [formControl]="minStock"
+      ngDefaultControl
+    />
+
+    <app-input-number
+      label="Stock máximo"
+      [formControlName]="formKeys.maxStock"
+      [formControl]="maxStock"
+      ngDefaultControl
+    />
+
+    <app-checkbox
+      label="Disponible para envío"
+      [formControlName]="formKeys.isAvailableForDelivery"
+      [formControl]="isAvailableForDelivery"
+      ngDefaultControl
+    />
+  </div>
+</form>
