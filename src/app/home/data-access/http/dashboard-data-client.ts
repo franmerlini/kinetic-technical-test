@@ -16,7 +16,7 @@ export class DashboardDataClient {
     return this.#productDataClient.getProducts().pipe(
       map((products) => ({
         productsCount: products.length,
-        lowOnStockProductsCount: products.filter(({ stock }) => stock < 5).length,
+        lowOnStockProductsCount: products.filter(({ stock }) => stock < 5 && stock > 0).length,
         outOfStockProductsCount: products.filter(({ stock }) => stock === 0).length,
         stockValue: products.reduce((total, { price, stock }) => total + price * stock, 0),
       }))
