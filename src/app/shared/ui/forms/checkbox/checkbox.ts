@@ -16,6 +16,7 @@ import { getErrorMessage } from '@shared/util';
   ],
   template: `
     <div class="flex flex-col gap-2">
+      <label [for]="formControlName()">{{ label() }}</label>
       <div class="flex items-center gap-2">
         <p-checkbox
           [id]="formControlName()"
@@ -24,7 +25,7 @@ import { getErrorMessage } from '@shared/util';
           [formControl]="formControl()"
           [binary]="true"
         />
-        <label [for]="formControlName()">{{ label() }}</label>
+        <label [for]="formControlName()">{{ checkboxLabel() }}</label>
       </div>
       @if (error(); as error) {
         <small class="text-red-400">{{ error }}</small>
@@ -35,6 +36,7 @@ import { getErrorMessage } from '@shared/util';
 })
 export class Checkbox implements DoCheck {
   readonly label = input<string>();
+  readonly checkboxLabel = input<string>();
   readonly formControlName = input.required<string>();
   readonly formControl = input.required<FormControl>();
 
