@@ -8,6 +8,7 @@
     "baseUrl": "./src",
     "paths": {
       "@core/*": ["app/core/*"],
+      "@home/*": ["app/home/*"],
       "@products/*": ["app/products/*"],
       "@shared/*": ["app/shared/*"]
     },

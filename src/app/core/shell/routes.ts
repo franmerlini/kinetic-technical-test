@@ -8,6 +8,10 @@ export const routes: Routes = [
     component: Layout,
     children: [
       {
+        path: '',
+        loadChildren: () => import('@home/api').then((m) => m.routes),
+      },
+      {
         path: 'products',
         loadChildren: () => import('@products/api').then((m) => m.routes),
       },

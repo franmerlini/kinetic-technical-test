@@ -1,0 +1,47 @@
+@if (dashboardData(); as dashboardData) {
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div class="md:col-start-1 md:row-start-1">
+      <p-card class="h-full w-full">
+        <div class="flex flex-col items-center gap-4 text-center">
+          <h3>Cantidad total de productos</h3>
+          <p class="text-2xl sm:text-3xl md:text-4xl">{{ dashboardData.productsCount }}</p>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="md:col-span-2 md:row-span-2">
+      <p-card class="h-full w-full"></p-card>
+    </div>
+
+    <div class="md:col-start-1 md:row-start-2">
+      <p-card class="h-full w-full">
+        <div class="flex flex-col items-center gap-4 text-center">
+          <h3>Valor total del inventario</h3>
+          <p class="text-2xl sm:text-3xl md:text-4xl">{{ dashboardData.stockValue | currency }}</p>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="md:col-start-1 md:row-start-3">
+      <p-card class="h-full w-full"></p-card>
+    </div>
+
+    <div class="md:col-start-2 md:row-start-3">
+      <p-card class="h-full w-full">
+        <div class="flex flex-col items-center gap-4 text-center">
+          <h3>Cantidad de productos sin stock</h3>
+          <p class="text-2xl sm:text-3xl md:text-4xl">{{ dashboardData.outOfStockProductsCount }}</p>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="md:col-start-3 md:row-start-3">
+      <p-card class="h-full w-full">
+        <div class="flex flex-col items-center gap-4 text-center">
+          <h3>Cantidad de productos con bajo stock</h3>
+          <p class="text-2xl sm:text-3xl md:text-4xl">{{ dashboardData.lowOnStockProductsCount }}</p>
+        </div>
+      </p-card>
+    </div>
+  </div>
+}
