@@ -29,7 +29,7 @@ type Data = { type: 'error' | 'warning' | 'success' | 'info'; message: string };
 
       <p class="text-center">{{ config.data?.message }}</p>
 
-      <div class="flex justify-center gap-4">
+      <div class="flex justify-center gap-2">
         @if (config.data?.type !== 'info') {
           <p-button severity="secondary" (click)="ref.close(false)">Cancelar</p-button>
         }
