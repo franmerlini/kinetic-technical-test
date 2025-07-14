@@ -37,7 +37,6 @@ type Data = { type: 'error' | 'warning' | 'success' | 'info'; message: string };
       </div>
     </div>
   `,
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dialog {
