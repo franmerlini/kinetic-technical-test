@@ -28,7 +28,6 @@ export class Layout {
   readonly items = signal<MenuItem[]>([
     { label: 'Inicio', icon: PrimeIcons.HOME, routerLink: '/' },
     { label: 'Gestión de productos', icon: PrimeIcons.BOX, routerLink: '/products' },
-    { label: 'Estadísticas', icon: PrimeIcons.CHART_BAR, routerLink: '/statistics' },
   ]);
 
   toggleSidenav(): void {
