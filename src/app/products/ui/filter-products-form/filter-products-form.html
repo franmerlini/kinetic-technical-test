@@ -1,6 +1,14 @@
 <form [formGroup]="form" class="flex flex-col gap-4">
-  <div class="grid grid-cols-1 items-center gap-4 sm:grid-cols-2 md:grid-cols-3">
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
     <app-input-text label="Nombre" [formControlName]="formKeys.name" [formControl]="name" ngDefaultControl />
+
+    <app-checkbox
+      label="Disponibilidad para envío"
+      checkboxLabel="Disponible"
+      [formControlName]="formKeys.isAvailableForDelivery"
+      [formControl]="isAvailableForDelivery"
+      ngDefaultControl
+    />
 
     <app-input-number
       label="Precio mínimo"
@@ -16,21 +24,16 @@
       ngDefaultControl
     />
 
-    <app-multi-select
-      [list]="categoryList()"
-      label="Categorías"
-      [formControlName]="formKeys.categories"
-      [formControl]="categories"
-      ngDefaultControl
-    />
-
-    <app-multi-select
-      [list]="subCategoryList()"
-      label="Subcategorías"
-      [formControlName]="formKeys.subCategories"
-      [formControl]="subCategories"
-      ngDefaultControl
-    />
+    <div class="flex flex-col gap-2 sm:col-span-2">
+      <label for="tree">Categorías</label>
+      <p-tree
+        id="tree"
+        [value]="categoryTree()"
+        selectionMode="checkbox"
+        class="w-full"
+        [(selection)]="selectedCategories"
+      />
+    </div>
 
     <app-input-number
       label="Stock mínimo"
@@ -43,13 +46,6 @@
       label="Stock máximo"
       [formControlName]="formKeys.maxStock"
       [formControl]="maxStock"
-      ngDefaultControl
-    />
-
-    <app-checkbox
-      label="Disponible para envío"
-      [formControlName]="formKeys.isAvailableForDelivery"
-      [formControl]="isAvailableForDelivery"
       ngDefaultControl
     />
   </div>

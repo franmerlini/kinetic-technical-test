@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import { SelectItem } from '@shared/model';
+import { SelectItem, TreeNode } from '@shared/model';
 
 const categories: SelectItem[] = [
   { id: 1, name: 'Equipos de elevación' },
@@ -42,5 +42,22 @@ export class CategoryDataClient {
 
   getSubCategories(categoryIds: number[]): Observable<SelectItem[]> {
     return of(subCategories.filter(({ parendId }) => categoryIds.includes(parendId ?? 0)));
+  }
+
+  getCategoryTree(): Observable<TreeNode<SelectItem>[]> {
+    return of(
+      categories.map((category) => ({
+        key: `${category.id}`,
+        label: category.name,
+        data: category,
+        children: subCategories
+          .filter((subCategory) => subCategory.parendId === category.id)
+          .map((subCategory) => ({
+            key: `${category.id}-${subCategory.id}`,
+            label: subCategory.name,
+            data: subCategory,
+          })),
+      }))
+    );
   }
 }

@@ -48,7 +48,7 @@ export class ProductList {
   readonly #toastService = inject(ToastService);
 
   protected readonly products$ = this.#productDataClient.getFilteredProducts();
-  readonly categories = toSignal(this.#categoryDataClient.getCategories());
+  readonly categoryTree = toSignal(this.#categoryDataClient.getCategoryTree());
   readonly filters = toSignal(this.#productDataClient.getFilters());
 
   resetFilters(): void {
@@ -57,11 +57,7 @@ export class ProductList {
 
   applyFilters(): void {
     this.#dialogService
-      .openFromComponent(FilterProductsDialog, {
-        categories: this.categories(),
-        subCategories: [],
-        filters: this.filters(),
-      })
+      .openFromComponent(FilterProductsDialog, { categoryTree: this.categoryTree(), filters: this.filters() })
       .onClose.pipe(
         take(1),
         filter((filterProducts: FilterProducts) => !!filterProducts),

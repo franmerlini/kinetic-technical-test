@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, model } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { SelectItem } from '@shared/model';
-import { Checkbox, InputNumber, InputText, MultiSelect } from '@shared/ui';
+import { Tree } from 'primeng/tree';
+
+import { SelectItem, TreeNode } from '@shared/model';
+import { Checkbox, InputNumber, InputText } from '@shared/ui';
 
 import { FilterProducts } from '@products/domain';
 
@@ -30,15 +32,16 @@ type Form = {
 
 @Component({
   selector: 'app-filter-products-form',
-  imports: [ReactiveFormsModule, InputText, InputNumber, MultiSelect, Checkbox],
+  imports: [ReactiveFormsModule, InputText, InputNumber, Tree, Checkbox],
   templateUrl: './filter-products-form.html',
   styleUrl: './filter-products-form.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterProductsForm {
-  readonly categoryList = input.required<SelectItem[]>();
-  readonly subCategoryList = input.required<SelectItem[]>();
+  readonly categoryTree = input.required<TreeNode<SelectItem>[]>();
   readonly filters = input.required<FilterProducts>();
+
+  readonly selectedCategories = model<TreeNode<SelectItem>[]>();
 
   readonly #fb = inject(FormBuilder);
 
@@ -56,6 +59,15 @@ export class FilterProductsForm {
         [FORM_KEYS.maxStock]: maxStock || null,
         [FORM_KEYS.isAvailableForDelivery]: isAvailableForDelivery || null,
       });
+    });
+
+    effect(() => {
+      const selectedCategories = this.selectedCategories();
+      if (selectedCategories) {
+        const categories = selectedCategories.filter((node) => node.parent === undefined).map(({ data }) => data);
+        const subCategories = selectedCategories.filter((node) => node.parent !== undefined).map(({ data }) => data);
+        this.form.patchValue({ [FORM_KEYS.categories]: categories, [FORM_KEYS.subCategories]: subCategories });
+      }
     });
   }
 
