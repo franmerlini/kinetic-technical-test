@@ -2,6 +2,10 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
+import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore } from '@ngrx/router-store';
+import { provideStore } from '@ngrx/store';
+
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -9,7 +13,10 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
-import { routes } from '@core/api';
+import { ROOT_EFFECTS, ROOT_REDUCERS } from '@core/data-access';
+import { FeatureKeys } from '@core/domain';
+import { routes } from '@core/shell';
+import { CustomSerializer } from '@core/util';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,5 +47,8 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     DialogService,
+    provideStore(ROOT_REDUCERS),
+    provideEffects(ROOT_EFFECTS),
+    provideRouterStore({ stateKey: FeatureKeys.ROUTER, serializer: CustomSerializer }),
   ],
 };

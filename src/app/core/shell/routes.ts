@@ -1,6 +1,18 @@
 import { Routes } from '@angular/router';
 
+import { provideEffects } from '@ngrx/effects';
+import { provideState } from '@ngrx/store';
+
 import { Layout } from '@core/feature';
+
+import {
+  CategoryEffects,
+  CategoryFeature,
+  ProductEffects,
+  ProductFeature,
+  SubcategoryEffects,
+  SubcategoryFeature,
+} from '@products/data-access';
 
 export const routes: Routes = [
   {
@@ -9,12 +21,22 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('@home/api').then((m) => m.routes),
+        loadChildren: () => import('@home/shell').then((m) => m.routes),
       },
       {
         path: 'products',
-        loadChildren: () => import('@products/api').then((m) => m.routes),
+        loadChildren: () => import('@products/shell').then((m) => m.routes),
+        providers: [
+          provideState(ProductFeature),
+          provideState(CategoryFeature),
+          provideState(SubcategoryFeature),
+          provideEffects(ProductEffects, CategoryEffects, SubcategoryEffects),
+        ],
       },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
