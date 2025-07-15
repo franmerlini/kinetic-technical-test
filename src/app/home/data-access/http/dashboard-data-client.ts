@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 
 import { DashboardData } from '@home/domain';
 
-import { ProductDataClient } from '@products/api';
+import { ProductDataClient } from '@products/data-access';
 
 @Injectable({
   providedIn: 'root',
