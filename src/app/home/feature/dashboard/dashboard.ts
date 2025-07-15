@@ -11,7 +11,11 @@ import { DashboardCards } from '@home/ui';
     <div class="flex flex-col gap-8">
       <h1 class="text-center">Mechanic Stock Dashboard</h1>
 
-      <app-dashboard-cards [dashboardData]="dashboardData()" />
+      <app-dashboard-cards
+        [dashboardData]="dashboardData()"
+        [stockByProduct]="stockByProduct()"
+        [stockValueDistribution]="stockValueDistribution()"
+      />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,4 +24,6 @@ export class Dashboard {
   readonly #dashboardDataClient = inject(DashboardDataClient);
 
   protected readonly dashboardData = toSignal(this.#dashboardDataClient.getDashboardData());
+  protected readonly stockByProduct = toSignal(this.#dashboardDataClient.getStockByProduct());
+  protected readonly stockValueDistribution = toSignal(this.#dashboardDataClient.getStockValueDistribution());
 }

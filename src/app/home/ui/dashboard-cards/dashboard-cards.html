@@ -10,7 +10,9 @@
     </div>
 
     <div class="md:col-span-2 md:row-span-2">
-      <p-card class="h-full w-full"></p-card>
+      <p-card class="h-full w-full">
+        <p-chart type="bar" [data]="stockByProductData()" [options]="stockByProductOptions()" />
+      </p-card>
     </div>
 
     <div class="md:col-start-1 md:row-start-2">
@@ -23,7 +25,9 @@
     </div>
 
     <div class="md:col-start-1 md:row-start-3">
-      <p-card class="h-full w-full"></p-card>
+      <p-card class="h-full w-full">
+        <p-chart type="doughnut" [data]="stockValueDistributionData()" [options]="stockValueDistributionOptions()" />
+      </p-card>
     </div>
 
     <div class="md:col-start-2 md:row-start-3">

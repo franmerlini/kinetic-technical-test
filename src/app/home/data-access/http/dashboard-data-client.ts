@@ -22,4 +22,16 @@ export class DashboardDataClient {
       }))
     );
   }
+
+  getStockByProduct(): Observable<{ name: string; stock: number }[]> {
+    return this.#productDataClient
+      .getProducts()
+      .pipe(map((products) => products.map(({ name, stock }) => ({ name, stock }))));
+  }
+
+  getStockValueDistribution(): Observable<{ name: string; value: number }[]> {
+    return this.#productDataClient
+      .getProducts()
+      .pipe(map((products) => products.map(({ name, stock, price }) => ({ name, value: stock * price }))));
+  }
 }
