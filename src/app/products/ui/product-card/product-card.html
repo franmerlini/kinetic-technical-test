@@ -1,10 +1,10 @@
 @if (product(); as product) {
   <p-card
-    class="cursor-pointer overflow-hidden transition duration-300 hover:shadow-lg"
-    [routerLink]="product.id.toString()"
+    class="h-[500px] cursor-pointer overflow-hidden transition duration-300 hover:shadow-lg"
+    (click)="viewProduct.emit(product.id)"
   >
     <ng-template #header>
-      <img class="w-full" [src]="product.imageUrl" [alt]="product.name" />
+      <img #img class="w-full" [src]="product.imageUrl" [alt]="product.name" (error)="setPlaceholderImage()" />
     </ng-template>
 
     <ng-template #title>{{ product.name }}</ng-template>
@@ -22,8 +22,7 @@
           pTooltip="Editar"
           tooltipPosition="bottom"
           icon="pi pi-pencil"
-          [routerLink]="product.id.toString()"
-          [queryParams]="{ isEdition: true }"
+          (onClick)="updateProduct.emit(product.id); $event.stopPropagation()"
         />
         <p-button
           text
