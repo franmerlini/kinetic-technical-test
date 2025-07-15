@@ -9,7 +9,7 @@ import { Footer, Header, Sidenav } from '@core/ui';
   selector: 'app-layout',
   imports: [Sidenav, Header, RouterOutlet, Footer],
   template: `
-    <div class="flex min-h-screen flex-col">
+    <div class="bg-surface-50 dark:bg-surface-950 flex min-h-screen flex-col">
       <app-sidenav [(visible)]="visible" [items]="items()" />
 
       <app-header (toggleSidenav)="toggleSidenav()" (isDarkModeChange)="toggleDarkMode()" />
