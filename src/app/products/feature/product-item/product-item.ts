@@ -1,23 +1,22 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  booleanAttribute,
-  computed,
-  inject,
-  numberAttribute,
-  input as routeInput,
-  signal,
-} from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { filter, switchMap, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { combineLatest, filter, take } from 'rxjs';
 
 import { SelectItem } from '@shared/model';
-import { DialogService, ToastService } from '@shared/service';
+import { DialogService } from '@shared/service';
 
-import { CategoryDataClient, ProductDataClient } from '@products/data-access';
+import { ToastActions } from '@core/data-access';
+
+import {
+  CategoryFeature,
+  ProductActions,
+  ProductFeature,
+  SubcategoryActions,
+  SubcategoryFeature,
+} from '@products/data-access';
 import { RegisterProduct, UpdateProduct } from '@products/domain';
 import { ProductDetail, ProductForm } from '@products/ui';
 
@@ -25,82 +24,59 @@ import { ProductDetail, ProductForm } from '@products/ui';
   selector: 'app-product-item',
   imports: [ProductDetail, ProductForm, AsyncPipe],
   template: `
-    <div class="flex flex-col gap-8">
-      <h1>{{ isViewMode() ? 'Detalle de' : isEdition() ? 'Editar' : 'Registrar' }} producto</h1>
-      @if (isViewMode()) {
-        <app-product-detail [product]="product$ | async" (deleteProduct)="deleteProduct($event)" />
-      } @else {
-        <app-product-form
-          [product]="product$ | async"
-          [categoryList]="categories()"
-          [subCategoryList]="subCategories()"
-          (selectCategories)="filterSubCategories($event)"
-          (registerProduct)="registerProduct($event)"
-          (updateProduct)="updateProduct($event)"
-          (formError)="toastService.showError($event)"
-        />
-      }
-    </div>
+    @if (vm$ | async; as vm) {
+      <div class="flex flex-col gap-8">
+        <h1>{{ vm.isViewMode ? 'Detalle de' : vm.isEditionMode ? 'Editar' : 'Registrar' }} producto</h1>
+        @if (vm.isViewMode) {
+          <app-product-detail [product]="vm.product" (deleteProduct)="deleteProduct($event)" />
+        } @else {
+          <app-product-form
+            [product]="vm.product"
+            [categoryList]="vm.categories"
+            [subCategoryList]="vm.subcategories"
+            (selectCategories)="filterSubCategories($event)"
+            (registerProduct)="registerProduct($event)"
+            (updateProduct)="updateProduct($event)"
+            (formError)="showError($event)"
+          />
+        }
+      </div>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductItem {
-  readonly id = routeInput(undefined, { transform: numberAttribute });
-  readonly isEdition = routeInput(undefined, { transform: booleanAttribute });
-
-  readonly #productDataClient = inject(ProductDataClient);
-  readonly #categoryDataClient = inject(CategoryDataClient);
-  protected readonly toastService = inject(ToastService);
-  readonly #router = inject(Router);
   readonly #dialogService = inject(DialogService);
+  readonly #store = inject(Store);
 
-  protected readonly product$ = toObservable(this.id).pipe(switchMap((id) => this.#productDataClient.getProduct(id)));
-  protected readonly categories = toSignal(this.#categoryDataClient.getCategories());
-  protected readonly subCategories = signal<SelectItem[]>([]);
-  protected readonly isViewMode = computed(() => !this.isEdition() && !!this.id());
+  protected readonly vm$ = combineLatest({
+    isViewMode: this.#store.select(ProductFeature.selectIsViewMode),
+    isEditionMode: this.#store.select(ProductFeature.selectIsEditionMode),
+    product: this.#store.select(ProductFeature.selectSelectedProduct),
+    categories: this.#store.select(CategoryFeature.selectCategories),
+    subcategories: this.#store.select(SubcategoryFeature.selectSubcategories),
+  });
 
   filterSubCategories(categories: SelectItem[]): void {
-    if (categories.length === 0) {
-      this.subCategories.set([]);
-      return;
-    }
-    this.#categoryDataClient
-      .getSubCategories(categories.map(({ id }) => id))
-      .pipe(take(1))
-      .subscribe((subCategories) => this.subCategories.set(subCategories));
+    this.#store.dispatch(SubcategoryActions.loadSubcategories({ categoryIds: categories.map(({ id }) => id) }));
   }
 
   registerProduct(registerProduct: RegisterProduct): void {
-    this.#productDataClient
-      .registerProduct(registerProduct)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.toastService.showSuccess('¡Producto registrado con éxito!');
-        this.#router.navigate(['/products']);
-      });
+    this.#store.dispatch(ProductActions.addProduct({ registerProduct }));
   }
 
   updateProduct(updateProduct: UpdateProduct): void {
-    this.#productDataClient
-      .updateProduct(updateProduct)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.toastService.showSuccess('¡Producto actualizado con éxito!');
-        this.#router.navigate(['/products']);
-      });
+    this.#store.dispatch(ProductActions.updateProduct({ updateProduct }));
   }
 
   deleteProduct(productId: number): void {
     this.#dialogService
       .openWarning('¿Está seguro que desea eliminar este producto?')
-      .onClose.pipe(
-        take(1),
-        filter(Boolean),
-        switchMap(() => this.#productDataClient.deleteProduct(productId))
-      )
-      .subscribe(() => {
-        this.toastService.showSuccess('¡Producto eliminado con éxito!');
-        this.#router.navigate(['/products']);
-      });
+      .onClose.pipe(take(1), filter(Boolean))
+      .subscribe(() => this.#store.dispatch(ProductActions.deleteProduct({ productId })));
+  }
+
+  showError(error: string): void {
+    this.#store.dispatch(ToastActions.showErrorMessage({ message: error }));
   }
 }

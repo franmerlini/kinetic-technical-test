@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { FilterProducts, Product, RegisterProduct, UpdateProduct } from '@products/domain';
+import { Product, RegisterProduct, UpdateProduct } from '@products/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -64,8 +64,6 @@ export class ProductDataClient {
       updatedAt: new Date('2025-07-10T20:06:16.780Z'),
     },
   ]);
-  readonly #filteredProducts = new BehaviorSubject<Product[]>(this.#products.getValue());
-  readonly #filters = new BehaviorSubject<FilterProducts>({});
 
   getProducts(): Observable<Product[]> {
     return this.#products.asObservable();
@@ -97,39 +95,5 @@ export class ProductDataClient {
     const updatedProducts = currentProducts.filter(({ id }) => id !== productId);
     this.#products.next(updatedProducts);
     return of(null);
-  }
-
-  getFilters(): Observable<FilterProducts> {
-    return this.#filters.asObservable();
-  }
-
-  getFilteredProducts(): Observable<Product[]> {
-    return this.#filteredProducts.asObservable();
-  }
-
-  filterProducts(filters: FilterProducts): Observable<void> {
-    this.#filters.next(filters);
-    const filtered = this.#products
-      .getValue()
-      .filter(
-        (product) =>
-          (!filters.name || product.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-          (filters.minPrice === null || product.price >= filters.minPrice) &&
-          (filters.maxPrice === null || product.price <= filters.maxPrice) &&
-          (filters.categories.length === 0 ||
-            filters.categories.some((cat) => product.categories?.some(({ id }) => id === cat.id))) &&
-          (filters.subCategories.length === 0 ||
-            filters.subCategories.some((subCat) => product.subCategories?.some(({ id }) => id === subCat.id))) &&
-          (filters.minStock === null || product.stock >= filters.minStock) &&
-          (filters.maxStock === null || product.stock <= filters.maxStock) &&
-          (filters.isAvailableForDelivery === null || product.isAvailableForDelivery === filters.isAvailableForDelivery)
-      );
-    this.#filteredProducts.next(filtered);
-    return of(undefined);
-  }
-
-  resetFilters(): void {
-    this.#filters.next({});
-    this.#filteredProducts.next(this.#products.getValue());
   }
 }
