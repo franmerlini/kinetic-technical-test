@@ -29,6 +29,14 @@ import { Toolbar } from 'primeng/toolbar';
           (click)="isDarkMode.update(updateFn)"
           data-testId="themeButton"
         />
+        <a
+          icon="pi pi-github"
+          href="https://github.com/franmerlini/kinetic-technical-test"
+          target="_blank"
+          data-testId="githubLink"
+        >
+          <p-button icon="pi pi-github" [rounded]="true" [text]="true" />
+        </a>
       </div>
     </p-toolbar>
   `,
