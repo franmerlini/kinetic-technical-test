@@ -33,19 +33,19 @@ Algunas tecnologias fueron requisitos mínimos de la entrevista técnica (marcad
 
 ## Capturas de pantalla
 
-![Dashboard principal modo oscuro](<Screenshot from 2025-07-16 00-56-20.png>)
+![Dashboard principal modo oscuro](<./screenshots/Screenshot from 2025-07-16 00-56-20.png>)
 
-![Dashboard principal modo claro](<Screenshot from 2025-07-16 00-56-30.png>)
+![Dashboard principal modo claro](<./screenshots/Screenshot from 2025-07-16 00-56-30.png>)
 
-![Listado de productos en cuadricula](<Screenshot from 2025-07-16 00-56-46.png>)
+![Listado de productos en cuadricula](<./screenshots/Screenshot from 2025-07-16 00-56-46.png>)
 
-![Listado de productos en tabla](<Screenshot from 2025-07-16 00-56-53.png>)
+![Listado de productos en tabla](<./screenshots/Screenshot from 2025-07-16 00-56-53.png>)
 
-![Filtrado de productos](<Screenshot from 2025-07-16 00-57-15.png>)
+![Filtrado de productos](<./screenshots/Screenshot from 2025-07-16 00-57-15.png>)
 
-![Validacion de formularios](<Screenshot from 2025-07-16 00-57-41.png>)
+![Validacion de formularios](<./screenshots/Screenshot from 2025-07-16 00-57-41.png>)
 
-![Detalle de producto](<Screenshot from 2025-07-16 00-58-11.png>)
+![Detalle de producto](<./screenshots/Screenshot from 2025-07-16 00-58-11.png>)
 
 ## Instrucciones de ejecución
 
