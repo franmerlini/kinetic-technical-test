@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, model } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Tree } from 'primeng/tree';
@@ -82,6 +82,7 @@ export class FilterProductsForm {
     [FORM_KEYS.isAvailableForDelivery]: this.#fb.control(null),
   });
   protected readonly formKeys = FORM_KEYS;
+  protected readonly categoryTreeCopy = computed(() => JSON.parse(JSON.stringify(this.categoryTree())));
 
   getFilters(): FilterProducts {
     const { name, minPrice, maxPrice, categories, subCategories, minStock, maxStock, isAvailableForDelivery } =
