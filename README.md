@@ -1,82 +1,85 @@
-# MechanicStock
+# Mechanic Store
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Mechanic Store es una aplicación web frontend diseñada para gestionar el inventario de un taller mecánico. Este proyecto fue desarrollado como parte de una entrevista técnica para un puesto como desarrollador Angular Senior/Semi-Senior.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Tecnologías utilizadas
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Algunas tecnologias fueron requisitos mínimos de la entrevista técnica (marcadas con negrita), mientras que otras se incorporaron por decisión propia para mejorar la experiencia de desarrollo y del usuario
 
-## Finish your CI setup
+- Nx
+- **Angular (v20)**
+- **NgRx (Store, Effects, Entity, Router Store)**
+- **PrimeNG**
+- TailwindCSS
+- **TypeScript**
+- **RxJs**
+- Chart.js
+- Jest
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/TyIFvTuSG9)
+## Funcionalidades principales
 
+- Dashboard principal
+    - Vista de resumen con indicadores clave
+- Gestión de productos
+    - Alta, baja, modificación y consulta de productos
+    - 2 modos de visualización del listado de productos: tabla y cuadricula
+    - Paginación y filtrado de productos
 
-## Run tasks
+## Otras características
 
-To run the dev server for your app, use:
+- Diseño responsive
+- Modo claro/oscuro
+- Validación de formularios
 
-```sh
-npx nx serve mechanic-stock
-```
+## Capturas de pantalla
 
-To create a production bundle:
+![Dashboard principal modo oscuro](<Screenshot from 2025-07-16 00-56-20.png>)
 
-```sh
-npx nx build mechanic-stock
-```
+![Dashboard principal modo claro](<Screenshot from 2025-07-16 00-56-30.png>)
 
-To see all available targets to run for a project, run:
+![Listado de productos en cuadricula](<Screenshot from 2025-07-16 00-56-46.png>)
 
-```sh
-npx nx show project mechanic-stock
-```
+![Listado de productos en tabla](<Screenshot from 2025-07-16 00-56-53.png>)
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+![Filtrado de productos](<Screenshot from 2025-07-16 00-57-15.png>)
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+![Validacion de formularios](<Screenshot from 2025-07-16 00-57-41.png>)
 
-## Add new projects
+![Detalle de producto](<Screenshot from 2025-07-16 00-58-11.png>)
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+## Instrucciones de ejecución
 
-Use the plugin's generator to create new projects.
+Para ejecutar la aplicación localmente, asegurarse de tener instaladas las siguientes herramientas:
 
-To generate a new application, use:
+- Git
+- Node.js
+- pnpm
 
-```sh
-npx nx g @nx/angular:app demo
-```
+Pasos a seguir:
 
-To generate a new library, use:
+1. Clonar el repositorio:
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
+    ```sh 
+    git clone https://github.com/franmerlini/kinetic-technical-test.git
+    ```
+2. Navegar al directorio del proyecto
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+    ```sh
+    cd mechanic-store
+    ```
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+3. Instalar dependencias:
 
+    ```sh
+    pnpm install
+    ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+4. Ejecutar la aplicación:
 
-## Install Nx Console
+    ```sh
+    pnpx nx serve mechanic-stock
+    ```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+5. Acceder a la aplicación:
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+    En un navegador, acceder a la URL http://localhost:4200.
